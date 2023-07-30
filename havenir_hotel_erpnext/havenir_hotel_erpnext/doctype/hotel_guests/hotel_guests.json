@@ -1,5 +1,6 @@
 {
- "autoname": "naming_series:",
+ "actions": [],
+ "autoname": "field:email",
  "creation": "2020-01-29 14:39:12.726257",
  "doctype": "DocType",
  "editable_grid": 1,
@@ -7,40 +8,31 @@
  "field_order": [
   "naming_series",
   "guest_name",
+  "email",
   "cnic",
+  "gender",
+  "contact_no",
   "column_break_3",
+  "phone_no",
   "passport_no",
-  "date_of_birth",
   "details_section",
   "id_card_front_attachment",
   "id_card_front_photo",
-  "contact_no",
+  "current_address",
   "column_break_8",
   "id_card_back_attachment",
   "id_card_back_photo",
-  "current_address",
   "permanent_address",
   "section_break_11",
   "prefrences"
  ],
  "fields": [
   {
-   "allow_in_quick_entry": 1,
    "description": "Format: XXXXX-XXXXXXX-X\nExample: 12345-1234567-1",
    "fieldname": "cnic",
    "fieldtype": "Data",
-   "in_global_search": 1,
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "CNIC",
-   "reqd": 1,
-   "unique": 1
-  },
-  {
-   "allow_in_quick_entry": 1,
-   "fieldname": "date_of_birth",
-   "fieldtype": "Date",
-   "label": "Date of Birth"
+   "hidden": 1,
+   "label": "CNIC"
   },
   {
    "fieldname": "prefrences",
@@ -70,15 +62,11 @@
    "unique": 1
   },
   {
-   "allow_in_quick_entry": 1,
    "description": "Format: 92XXXXXXXXXX\nExample: 923217654321",
    "fieldname": "contact_no",
    "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Contact No",
-   "reqd": 1,
-   "unique": 1
+   "hidden": 1,
+   "label": "Contact No"
   },
   {
    "fieldname": "column_break_8",
@@ -112,7 +100,6 @@
    "options": "id_card_front_attachment"
   },
   {
-   "allow_in_quick_entry": 1,
    "fieldname": "id_card_front_attachment",
    "fieldtype": "Attach Image",
    "in_preview": 1,
@@ -135,13 +122,32 @@
    "fieldname": "details_section",
    "fieldtype": "Section Break",
    "label": "Details"
+  },
+  {
+   "fieldname": "email",
+   "fieldtype": "Data",
+   "label": "Email Address",
+   "unique": 1
+  },
+  {
+   "fieldname": "gender",
+   "fieldtype": "Select",
+   "label": "Gender",
+   "options": "\nMale\nFemale"
+  },
+  {
+   "fieldname": "phone_no",
+   "fieldtype": "Data",
+   "label": "Phone Number"
   }
  ],
- "modified": "2020-07-29 12:02:04.025076",
+ "links": [],
+ "modified": "2023-07-29 12:49:27.676288",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
  "name_case": "Title Case",
+ "naming_rule": "By fieldname",
  "owner": "Administrator",
  "permissions": [
   {
@@ -181,9 +187,10 @@
    "write": 1
   }
  ],
- "search_fields": "guest_name,cnic,passport_no,contact_no",
+ "search_fields": "guest_name,phone_no",
  "sort_field": "modified",
  "sort_order": "DESC",
+ "states": [],
  "title_field": "guest_name",
  "track_changes": 1
 }

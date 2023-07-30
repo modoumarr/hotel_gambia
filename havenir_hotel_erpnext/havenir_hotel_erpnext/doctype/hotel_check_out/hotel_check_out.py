@@ -81,18 +81,20 @@ class HotelCheckOut(Document):
         
         
         
-
+    @frappe.whitelist()    
     def get_check_in_details(self):
         room_doc = frappe.get_doc('Rooms', self.room)
         check_in_doc = frappe.get_doc('Hotel Check In', room_doc.check_in_id)
         return [check_in_doc.name, check_in_doc.cnic, check_in_doc.guest_name, check_in_doc.check_in, check_in_doc.contact_no, check_in_doc.guest_id]
-
+    
+    @frappe.whitelist()    
     def calculate_stay_days(self):
         if frappe.utils.data.date_diff(self.check_out, self.check_in) == 0:
             return 1
         else:
             return frappe.utils.data.date_diff(self.check_out, self.check_in)
 
+    @frappe.whitelist()    
     def get_items(self):
         # Getting Hotel Check In Details
         hotel_check_in = frappe.get_doc('Hotel Check In', self.check_in_id)
@@ -388,5 +390,6 @@ def create_sales_invoice(self, all_checked_out):
                     sales_invoice_doc.discount_amount += check_out_doc.discount
                 if self.food_discount != 0 and exclude_discount == 0:
                     sales_invoice_doc.discount_amount += self.food_discount
+            sales_invoice_doc.status = 'Paid'
             sales_invoice_doc.insert(ignore_permissions=True)
             sales_invoice_doc.submit()
