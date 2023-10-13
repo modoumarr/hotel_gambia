@@ -39,6 +39,9 @@ frappe.ui.form.on("Hotel Check Out", {
     
   },
 
+
+
+
   total: function(frm) {
     var temp_total_amount = 0;
     var temp_stay_charges = 0;

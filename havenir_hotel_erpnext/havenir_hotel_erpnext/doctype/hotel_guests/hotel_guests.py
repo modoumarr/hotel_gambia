@@ -6,8 +6,8 @@ class HotelGuests(Document):
     def validate(self):
         if not frappe.db.exists("Customer", self.email):
             customer = frappe.new_doc("Customer")
-            customer.email = self.email
-            customer.customer_name = self.guest_name
+            customer.guest_name = self.guest_name
+            customer.customer_name = self.email
             customer.customer_group = "Individual"
             customer.customer_type = "Individual"
             

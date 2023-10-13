@@ -1,43 +1,37 @@
 {
  "actions": [],
- "creation": "2020-01-29 16:51:14.422993",
+ "creation": "2023-08-12 01:30:15.958834",
+ "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
  "field_order": [
-  "item",
-  "qty",
-  "rate",
+  "invoice",
+  "status",
   "amount",
-  "details"
+  "date"
  ],
  "fields": [
   {
-   "fieldname": "item",
+   "fieldname": "invoice",
    "fieldtype": "Link",
    "in_list_view": 1,
-   "label": "Item",
-   "options": "Item",
+   "label": "Invoice",
+   "options": "Sales Invoice",
    "reqd": 1,
    "search_index": 1
   },
   {
-   "default": "1",
-   "fieldname": "qty",
-   "fieldtype": "Float",
+   "fetch_from": "invoice.status",
+   "fieldname": "status",
+   "fieldtype": "Data",
    "in_list_view": 1,
-   "label": "Qty",
+   "label": "Status",
+   "read_only": 1,
    "reqd": 1
   },
   {
-   "fieldname": "rate",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Rate",
-   "options": "Currency",
-   "reqd": 1
-  },
-  {
+   "fetch_from": "invoice.total",
    "fieldname": "amount",
    "fieldtype": "Currency",
    "in_list_view": 1,
@@ -47,17 +41,21 @@
    "reqd": 1
   },
   {
-   "fieldname": "details",
-   "fieldtype": "Small Text",
-   "label": "Details"
+   "fetch_from": "invoice.posting_date",
+   "fieldname": "date",
+   "fieldtype": "Date",
+   "in_list_view": 1,
+   "label": "Date",
+   "read_only": 1,
+   "reqd": 1
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2023-08-12 06:59:55.037041",
+ "modified": "2023-08-12 01:42:35.849971",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
- "name": "Hotel Laundry Order Item",
+ "name": "Guest Check Out Item",
  "owner": "Administrator",
  "permissions": [],
  "quick_entry": 1,

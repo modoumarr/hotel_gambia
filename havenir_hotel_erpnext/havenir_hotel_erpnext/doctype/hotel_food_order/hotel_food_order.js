@@ -12,13 +12,32 @@ frappe.ui.form.on("Hotel Food Order", {
       };
     });
 
-    frm.set_query("item", "items", function(doc) {
-      return {
-        filters: {
-          item_group: "Restaurant"
-        }
-      };
-    });
+  //   frm.set_query("item", "items", function(doc) {
+  //     return {
+  //       filters: {
+  //         item_group: "Restaurant"
+  //       }
+  //     };
+  //   });
+
+//   frm.set_query("item", "items", function(doc) {
+//     // Get all child item groups of the "Restaurant" parent item group
+//     frappe.model.with_doc("Item Group", "Restaurant", function() {
+//         var child_item_groups = frappe.get_children("Item Group", "Restaurant", "item_groups");
+//         var item_groups = [];
+//         child_item_groups.forEach(function(child_item_group) {
+//             item_groups.push(child_item_group.item_group);
+//         });
+
+//         // Set the filter to include items from the child item groups
+//         return {
+//             filters: {
+//                 item_group: ["in", item_groups]
+//             }
+//         };
+//     });
+// });
+
   },
 
   validate: function(frm) {
@@ -152,8 +171,12 @@ frappe.ui.form.on("Hotel Food Order Item", {
 				frm.refresh_field("items");
 				frm.trigger("total_amount");
 			}
+
+
   },
   rate: function(frm, cdt, cdn) {
+    
+    
     let row = frappe.get_doc(cdt, cdn);
     if (row.qty != undefined && row.item != undefined) {
       if (row.item == 'BREAKFAST COMPLIMENTARY' || row.item == 'LUNCH COMPLIMENTARY' || row.item == 'DINNER COMPLIMENTARY'){
@@ -173,6 +196,8 @@ frappe.ui.form.on("Hotel Food Order Item", {
       }
     }
   },
+
+  
 
   items_remove: function(frm, cdt, cdn) {
     frm.trigger("total_amount");

@@ -38,7 +38,8 @@
   "amount_paid",
   "refund",
   "section_break_11",
-  "amended_from"
+  "amended_from",
+  "guest_id"
  ],
  "fields": [
   {
@@ -261,11 +262,18 @@
    "fieldtype": "Datetime",
    "label": "Date",
    "reqd": 1
+  },
+  {
+   "fetch_from": "check_in_id.guest_id",
+   "fieldname": "guest_id",
+   "fieldtype": "Data",
+   "label": "Guest ID",
+   "read_only": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2023-07-29 12:51:00.962562",
+ "modified": "2023-08-12 06:52:56.583708",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Food Order",

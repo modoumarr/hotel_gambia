@@ -1,7 +1,8 @@
 {
  "actions": [],
  "autoname": "naming_series:",
- "creation": "2020-01-29 14:57:03.679302",
+ "creation": "2023-09-30 01:37:16.630767",
+ "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -12,7 +13,7 @@
   "naming_series",
   "guest_id",
   "guest_photo_attachment",
-  "check_in",
+  "expectation_date",
   "company",
   "column_break_7",
   "posting_date",
@@ -31,7 +32,6 @@
   "total_amount",
   "section_break_17",
   "status",
-  "expectation_date",
   "amended_from"
  ],
  "fields": [
@@ -57,9 +57,33 @@
    "fieldname": "naming_series",
    "fieldtype": "Select",
    "label": "Series",
-   "options": "CHK-IN-.YYYY.-",
+   "options": "EXP-.YYYY.-",
    "print_hide": 1,
    "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fieldname": "guest_id",
+   "fieldtype": "Link",
+   "label": "Guest ID",
+   "options": "Hotel Guests",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "guest_id.id_card_front_attachment",
+   "fieldname": "guest_photo_attachment",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Guest Photo Attachment",
+   "read_only": 1
+  },
+  {
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "label": "Company",
+   "options": "Company",
+   "print_hide": 1,
+   "remember_last_selected_value": 1,
    "reqd": 1
   },
   {
@@ -68,9 +92,75 @@
   },
   {
    "default": "now",
-   "fieldname": "check_in",
+   "fieldname": "posting_date",
+   "fieldtype": "Date",
+   "label": "Posting Date",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
+   "fetch_from": "guest_id.passport_no",
+   "fieldname": "passport_no",
+   "fieldtype": "Data",
+   "label": "Passport No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "check_out_date",
    "fieldtype": "Datetime",
-   "label": "Check In Date",
+   "hidden": 1,
+   "label": "Check Out Date"
+  },
+  {
+   "fetch_from": "guest_id.cnic",
+   "fieldname": "cnic",
+   "fieldtype": "Data",
+   "label": "CNIC",
+   "read_only": 1
+  },
+  {
+   "fetch_from": "guest_id.contact_no",
+   "fieldname": "contact_no",
+   "fieldtype": "Data",
+   "label": "Contact No",
+   "read_only": 1
+  },
+  {
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "guest_id.guest_name",
+   "fieldname": "guest_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Guest Name",
+   "read_only": 1
+  },
+  {
+   "depends_on": "eval: doc.guest_photo_attachment",
+   "fieldname": "guest_photo",
+   "fieldtype": "HTML",
+   "in_preview": 1,
+   "label": "Guest Photo"
+  },
+  {
+   "default": "1",
+   "fieldname": "duration",
+   "fieldtype": "Data",
+   "label": "Duration Stay"
+  },
+  {
+   "fieldname": "section_break_yt54i",
+   "fieldtype": "Section Break",
+   "label": "Booking Details"
+  },
+  {
+   "fieldname": "source",
+   "fieldtype": "Select",
+   "label": "Source",
+   "options": "\nPrivate\nBooking.com\nExpedia",
    "reqd": 1
   },
   {
@@ -79,8 +169,19 @@
    "label": "Room Details"
   },
   {
-   "fieldname": "column_break_13",
-   "fieldtype": "Column Break"
+   "fieldname": "rooms",
+   "fieldtype": "Table",
+   "label": "Rooms",
+   "options": "Hotel Check In Room",
+   "reqd": 1
+  },
+  {
+   "fieldname": "total_amount",
+   "fieldtype": "Currency",
+   "hidden": 1,
+   "label": "Total Amount",
+   "options": "Currency",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_17",
@@ -104,130 +205,33 @@
    "fieldtype": "Link",
    "label": "Amended From",
    "no_copy": 1,
-   "options": "Hotel Check In",
+   "options": "Hotel Expectation",
    "print_hide": 1,
    "read_only": 1
   },
   {
-   "fetch_from": "guest_id.guest_name",
-   "fieldname": "guest_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Guest Name",
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Hotel Expectation",
+   "print_hide": 1,
    "read_only": 1
   },
   {
    "default": "now",
-   "fieldname": "posting_date",
-   "fieldtype": "Date",
-   "label": "Posting Date",
-   "read_only": 1,
-   "reqd": 1
-  },
-  {
-   "fetch_from": "guest_id.cnic",
-   "fieldname": "cnic",
-   "fieldtype": "Data",
-   "label": "CNIC",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "guest_id.contact_no",
-   "fieldname": "contact_no",
-   "fieldtype": "Data",
-   "label": "Contact No",
-   "read_only": 1
-  },
-  {
-   "fieldname": "guest_id",
-   "fieldtype": "Link",
-   "label": "Guest ID",
-   "options": "Hotel Guests",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "guest_id.passport_no",
-   "fieldname": "passport_no",
-   "fieldtype": "Data",
-   "label": "Passport No",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "guest_id.id_card_front_attachment",
-   "fieldname": "guest_photo_attachment",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Guest Photo Attachment",
-   "read_only": 1
-  },
-  {
-   "depends_on": "eval: doc.guest_photo_attachment",
-   "fieldname": "guest_photo",
-   "fieldtype": "HTML",
-   "in_preview": 1,
-   "label": "Guest Photo"
-  },
-  {
-   "fieldname": "rooms",
-   "fieldtype": "Table",
-   "label": "Rooms",
-   "options": "Hotel Check In Room",
-   "reqd": 1
-  },
-  {
-   "fieldname": "total_amount",
-   "fieldtype": "Currency",
-   "hidden": 1,
-   "label": "Total Amount",
-   "options": "Currency",
-   "read_only": 1
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company",
-   "print_hide": 1,
-   "remember_last_selected_value": 1,
-   "reqd": 1
-  },
-  {
-   "fieldname": "check_out_date",
-   "fieldtype": "Datetime",
-   "hidden": 1,
-   "label": "Check Out Date"
-  },
-  {
-   "default": "1",
-   "fieldname": "duration",
-   "fieldtype": "Data",
-   "label": "Duration Stay"
-  },
-  {
-   "fieldname": "source",
-   "fieldtype": "Select",
-   "label": "Source",
-   "options": "\nPrivate\nBooking.com\nExpedia",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_yt54i",
-   "fieldtype": "Section Break",
-   "label": "Booking Details"
-  },
-  {
    "fieldname": "expectation_date",
    "fieldtype": "Datetime",
-   "label": "Expectation Date"
+   "label": "Expectation Date",
+   "reqd": 1
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2023-09-30 01:40:13.291172",
+ "modified": "2023-09-30 02:16:11.767465",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
- "name": "Hotel Check In",
+ "name": "Hotel Expectation",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [

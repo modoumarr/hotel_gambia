@@ -6,9 +6,9 @@ frappe.ui.form.on("Hotel Check In", {
     // setting query for rooms to be visible in list
     frm.set_query('room_no','rooms', function (doc){
       return{
-        filters: {
-          room_status: 'Available'
-        }
+        filters: [
+          ['room_status', 'in', ['Available', 'Expected']]
+      ]
       }
     });
   },
@@ -25,13 +25,13 @@ frappe.ui.form.on("Hotel Check In", {
     frm.refresh_field('guest_photo');
   },
 
-  validate: function(frm){
-    for (var i in frm.doc.rooms){
-      if (frm.doc.rooms[i].male == 0 && frm.doc.rooms[i].female == 0){
-        frappe.throw('Please Enter Guests Details for Room ' + frm.doc.rooms[i].room_no);
-      }
-    }
-  },
+  // validate: function(frm){
+  //   for (var i in frm.doc.rooms){
+  //     if (frm.doc.rooms[i].male == 0 && frm.doc.rooms[i].female == 0){
+  //       frappe.throw('Please Enter Guests Details for Room ' + frm.doc.rooms[i].room_no);
+  //     }
+  //   }
+  // },
 
   total_amount: function(frm){
     var temp_total_amount = 0;
@@ -70,10 +70,10 @@ frappe.ui.form.on('Hotel Check In Room', {
         })
       }
     }
-    // frm.trigger('total_amount');
+    frm.trigger('total_amount');
   },
 
   rooms_remove: function(frm) {
-    // frm.trigger('total_amount');
+    frm.trigger('total_amount');
   }
 })

@@ -6,47 +6,34 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe.core.doctype.sms_settings.sms_settings import send_sms
-from datetime import datetime
-from frappe.utils import add_to_date
 
 
-class HotelCheckIn(Document):
+class HotelExpectation(Document):
     def validate(self):
         for room in self.rooms:
             room_doc = frappe.get_doc('Rooms', room.room_no)
-            if room_doc.room_status == 'Checked In' :
+            if room_doc.room_status != 'Available':
                 frappe.throw('Room {} is not Available'.format(room.room_no))
 
-            # if room_doc.expectation_id:
-            #     expectation_date = room_doc.expectation_date
-            #     expectation_doc = frappe.get_doc('Hotel Expectation', room_doc.expectation_id)
-            #     duration = add_to_date(expectation_date, days=expectation_doc.duration, as_string=True, as_datetime=True)
-            #     check_in_date = datetime(self.check_in)
-            #     if datetime(expectation_date) <= check_in_date <= datetime(duration):
-            #         frappe.throw('Check-In date must not fall within the Expectation date range for room {}'.format(room.room_no))
-
-
     def on_submit(self):
-        self.create_sales_invoice()
-        self.status = 'To Check Out'
-        doc = frappe.get_doc('Hotel Check In', self.name)
-        doc.db_set('status', 'To Check Out')
+        # self.create_sales_invoice()
+        self.status = 'To Check In'
+        # doc = frappe.get_doc('Hotel Check In', self.name)
+        # doc.db_set('status', 'To Check Out')
         for room in self.rooms:
             room_doc = frappe.get_doc('Rooms', room.room_no)
-            room_doc.db_set('check_in_id', self.name)
-            room_doc.db_set('room_status', 'Checked In')
-            if room_doc.expectation_id:
-                room_doc.db_set('expectation_id', None)
-                room_doc.db_set('expectation_date', None)
+            room_doc.db_set('expectation_id', self.name)
+            room_doc.db_set('room_status', 'Expected')
+            room_doc.db_set('expectation_date', self.expectation_date)
         # send_payment_sms(self)
 
     def on_cancel(self):
         self.status = "Cancelled"
-        doc = frappe.get_doc('Hotel Check In', self.name)
-        doc.db_set('status', 'Cancelled')
+        # doc = frappe.get_doc('Hotel Check In', self.name)
+        # doc.db_set('status', 'Cancelled')
         for room in self.rooms:
             room_doc = frappe.get_doc('Rooms', room.room_no)
-            room_doc.db_set('check_in_id', None)
+            room_doc.db_set('expectation_id', None)
             room_doc.db_set('room_status', 'Available')
     @frappe.whitelist()
     def get_room_price(self, room):
@@ -56,9 +43,6 @@ class HotelCheckIn(Document):
             'price'
         ])
         return room_price
-    
-    
-           
     
 
     def create_sales_invoice(self):
