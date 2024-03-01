@@ -101,10 +101,10 @@ fixtures = [{
 # Scheduled Tasks
 # ---------------
 
-# scheduler_events = {
-# 	"all": [
-# 		"havenir_hotel_erpnext.tasks.all"
-# 	],
+scheduler_events = {
+	"all": [
+		"havenir_hotel_erpnext.api.get_unpaid"
+	],
 # 	"daily": [
 # 		"havenir_hotel_erpnext.tasks.daily"
 # 	],
@@ -117,7 +117,7 @@ fixtures = [{
 # 	"monthly": [
 # 		"havenir_hotel_erpnext.tasks.monthly"
 # 	]
-# }
+}
 
 # Testing
 # -------

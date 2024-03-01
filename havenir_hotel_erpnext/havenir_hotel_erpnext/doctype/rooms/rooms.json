@@ -16,11 +16,11 @@
   "guest_name",
   "column_break_8",
   "price",
-  "price_unit",
+  "uom",
+  "ab",
   "section_break_6",
   "facilities",
-  "expectation_id",
-  "expectation_date"
+  "reservations"
  ],
  "fields": [
   {
@@ -33,7 +33,7 @@
    "fieldtype": "Select",
    "in_list_view": 1,
    "label": "Room Status",
-   "options": "Available\nChecked In\nExpected\nRoom Service",
+   "options": "Available\nChecked In\nRoom Service",
    "read_only": 1
   },
   {
@@ -98,26 +98,28 @@
   },
   {
    "fetch_from": "room_type.pricing_unit",
-   "fieldname": "price_unit",
+   "fieldname": "uom",
    "fieldtype": "Data",
-   "label": "Price Unit"
+   "label": "UOM"
   },
   {
-   "fieldname": "expectation_id",
-   "fieldtype": "Link",
-   "label": "Expectation ID",
-   "options": "Hotel Expectation"
-  },
-  {
-   "fieldname": "expectation_date",
-   "fieldtype": "Datetime",
-   "label": "Expectation Date",
+   "default": "0",
+   "fieldname": "reservations",
+   "fieldtype": "Table",
+   "label": "Reservations",
+   "options": "Room Reservations",
    "read_only": 1
+  },
+  {
+   "default": "ab",
+   "fieldname": "ab",
+   "fieldtype": "Data",
+   "label": "ab"
   }
  ],
  "icon": "calender",
  "links": [],
- "modified": "2024-01-16 20:59:36.691754",
+ "modified": "2024-03-01 02:56:23.316515",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Rooms",

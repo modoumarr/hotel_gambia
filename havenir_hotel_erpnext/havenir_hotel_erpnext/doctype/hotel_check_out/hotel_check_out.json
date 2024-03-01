@@ -55,7 +55,8 @@
   "refund",
   "section_break_19",
   "status",
-  "amended_from"
+  "amended_from",
+  "unpaid_balance"
  ],
  "fields": [
   {
@@ -214,11 +215,11 @@
    "read_only": 1
   },
   {
+   "fetch_from": "check_in_id.guest_id",
    "fieldname": "customer",
    "fieldtype": "Link",
    "label": "Customer",
-   "options": "Customer",
-   "reqd": 1
+   "options": "Customer"
   },
   {
    "fieldname": "stay_summary_section",
@@ -228,7 +229,6 @@
   {
    "fieldname": "stay_charges",
    "fieldtype": "Currency",
-   "hidden": 1,
    "label": "Stay Charges",
    "options": "Currency",
    "read_only": 1
@@ -322,6 +322,7 @@
   {
    "fieldname": "payments",
    "fieldtype": "Table",
+   "hidden": 1,
    "label": "Payments",
    "options": "Hotel Check Out Payments",
    "read_only": 1
@@ -389,15 +390,19 @@
   {
    "fieldname": "total_bill",
    "fieldtype": "Currency",
-   "hidden": 1,
    "label": "Total Bill",
    "options": "Currency",
    "read_only": 1
+  },
+  {
+   "fieldname": "unpaid_balance",
+   "fieldtype": "Currency",
+   "label": "Unpaid Balance"
   }
  ],
  "is_submittable": 1,
  "links": [],
- "modified": "2023-09-23 14:34:20.591227",
+ "modified": "2024-03-01 05:08:56.420150",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check Out",

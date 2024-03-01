@@ -14,13 +14,13 @@ class HotelPaymentEntry(Document):
   def on_submit(self):
     pass
     # send_payment_sms(self)
-  
+  @frappe.whitelist()
   def get_room_details(self):
     check_in_id = frappe.get_value('Rooms',self.room,'check_in_id')
     check_in_doc = frappe.get_doc('Hotel Check In',check_in_id)
     result = [check_in_doc.guest_id,check_in_doc.guest_name,check_in_doc.name, check_in_doc.contact_no]
     return result
-
+  @frappe.whitelist()
   def get_advance_payments(self):
     hotel_payment_vouchers = frappe.get_list('Hotel Payment Entry', filters = {
       'room': self.room,
@@ -37,7 +37,7 @@ class HotelPaymentEntry(Document):
         total_advance -= payments.amount_paid
     
     return total_advance    
-
+  @frappe.whitelist()
   def create_payment_entry(self):
     company = frappe.get_doc('Company',self.company)
     if self.entry_type == 'Receive':

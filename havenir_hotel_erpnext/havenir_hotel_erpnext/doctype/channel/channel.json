@@ -1,0 +1,93 @@
+{
+ "actions": [],
+ "allow_rename": 1,
+ "autoname": "format:{channel_name}",
+ "creation": "2024-02-29 09:06:15.522021",
+ "default_view": "List",
+ "doctype": "DocType",
+ "editable_grid": 1,
+ "engine": "InnoDB",
+ "field_order": [
+  "channel_name",
+  "column_break_fl8xj",
+  "channel_id",
+  "section_break_xucii",
+  "channel_rooms",
+  "section_break_wsw34",
+  "minimum_stay",
+  "column_break_zgspc",
+  "maximum_stay"
+ ],
+ "fields": [
+  {
+   "fieldname": "channel_name",
+   "fieldtype": "Data",
+   "in_list_view": 1,
+   "label": "Channel Name",
+   "reqd": 1
+  },
+  {
+   "fieldname": "column_break_fl8xj",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "channel_id",
+   "fieldtype": "Data",
+   "label": "Channel ID"
+  },
+  {
+   "fieldname": "section_break_xucii",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "channel_rooms",
+   "fieldtype": "Table",
+   "label": "Channel Rooms",
+   "options": "Channel Rooms",
+   "reqd": 1
+  },
+  {
+   "fieldname": "section_break_wsw34",
+   "fieldtype": "Section Break"
+  },
+  {
+   "fieldname": "minimum_stay",
+   "fieldtype": "Data",
+   "label": "Minimum Stay"
+  },
+  {
+   "fieldname": "column_break_zgspc",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "maximum_stay",
+   "fieldtype": "Data",
+   "label": "Maximum Stay"
+  }
+ ],
+ "index_web_pages_for_search": 1,
+ "links": [],
+ "modified": "2024-02-29 09:10:29.621001",
+ "modified_by": "Administrator",
+ "module": "Havenir Hotel Erpnext",
+ "name": "Channel",
+ "naming_rule": "Expression",
+ "owner": "Administrator",
+ "permissions": [
+  {
+   "create": 1,
+   "delete": 1,
+   "email": 1,
+   "export": 1,
+   "print": 1,
+   "read": 1,
+   "report": 1,
+   "role": "System Manager",
+   "share": 1,
+   "write": 1
+  }
+ ],
+ "sort_field": "modified",
+ "sort_order": "DESC",
+ "states": []
+}

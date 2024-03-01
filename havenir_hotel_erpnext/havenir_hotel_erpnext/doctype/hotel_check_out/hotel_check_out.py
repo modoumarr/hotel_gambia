@@ -5,6 +5,7 @@
 from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
+from erpnext.accounts.utils import get_balance_on
 
 
 class HotelCheckOut(Document):
@@ -13,7 +14,20 @@ class HotelCheckOut(Document):
         if room_doc.room_status != 'Checked In' and room_doc.check_in_id == self.check_in_id:
             frappe.throw('Room Status is not Checked In')
 
+    def remove_guest(self):
+        doc = frappe.db.get("Guest In House", {"email": self.guest_id})
+        if doc:
+            frappe.delete_doc("Guest In House", doc.name)
+    #get customer unpaid orders
+    @frappe.whitelist()
+    def get_unpaid_balance(self):
+        return get_balance_on(
+            party_type="Customer",
+            party=self.guest_id,
+        )
+    
     def on_submit(self):
+        self.remove_guest()
         room_doc = frappe.get_doc('Rooms',self.room)
         room_doc.db_set('room_status','Available')
         room_doc.db_set('check_in_id',None)
@@ -50,7 +64,7 @@ class HotelCheckOut(Document):
             check_in_doc.db_set('status','Completed')
 
         # Creating Additional Hotel Payment Vouchers
-        # if self.amount_paid > 0 and self.customer == 'Hotel Walk In Customer':
+        # if self.amount_paid > 0 and self.guest_id == 'Hotel Walk In Customer':
         #     payment_doc = frappe.new_doc('Hotel Payment Entry')
         #     payment_doc.room = self.room
         #     payment_doc.amount_paid = self.amount_paid - self.refund
@@ -93,6 +107,13 @@ class HotelCheckOut(Document):
             return 1
         else:
             return frappe.utils.data.date_diff(self.check_out, self.check_in)
+    #get 
+    def get_guest_invoices(self):
+        invoices = frappe.get_list('Sales Invoice', filters={
+            'customer': self.guest_id,
+            'docstatus': 1
+        })
+        return invoices
         
     @frappe.whitelist()
     def get_items(self):
@@ -183,13 +204,13 @@ class HotelCheckOut(Document):
 
 # def create_sales_invoice(self, all_checked_out):
 #     # Sales Invoice for Hotel Walk In Customer
-#     if self.customer == 'Hotel Walk In Customer':
+#     if self.guest_id == 'Hotel Walk In Customer':
 #         # Creating Sales Invoice
 #         sales_invoice_doc = frappe.new_doc('Sales Invoice')
 #         company = frappe.get_doc('Company', self.company)
 #         sales_invoice_doc.discount_amount = 0
 
-#         sales_invoice_doc.customer = self.customer
+#         sales_invoice_doc.customer = self.guest_id
 #         sales_invoice_doc.check_in_id = self.check_in_id
 #         sales_invoice_doc.check_in_date = frappe.get_value('Hotel Check In', self.check_in_id, 'check_in')
 #         sales_invoice_doc.due_date = frappe.utils.data.today()
@@ -251,12 +272,12 @@ class HotelCheckOut(Document):
 
 def create_sales_invoice(self, all_checked_out):
     # Sales Invoice for Hotel Walk-In Customer
-    if self.customer == 'Hotel Walk In Customer':
+    if self.guest_id == 'Hotel Walk In Customer':
         # Creating Sales Invoice
         sales_invoice_doc = frappe.new_doc('Sales Invoice')
         company = frappe.get_doc('Company', self.company)
         sales_invoice_doc.discount_amount = 0
-        sales_invoice_doc.customer = self.customer
+        sales_invoice_doc.customer = self.guest_id
         sales_invoice_doc.check_in_id = self.check_in_id
         sales_invoice_doc.check_in_date = frappe.get_value('Hotel Check In', self.check_in_id, 'check_in')
         sales_invoice_doc.due_date = frappe.utils.data.today()
@@ -300,7 +321,7 @@ def create_sales_invoice(self, all_checked_out):
     # Rest of the code for other scenarios...
 
 
-    if all_checked_out == 1 or self.customer != 'Hotel Walk In Customer': 
+    if all_checked_out == 1 or self.guest_id != 'Hotel Walk In Customer': 
         create_walk_in_invoice = 0
         for item in self.items:
             if item.is_pos == 1:
@@ -444,3 +465,8 @@ def create_sales_invoice(self, all_checked_out):
     #                 sales_invoice_doc.discount_amount += self.food_discount
     #         sales_invoice_doc.insert(ignore_permissions=True)
     #         sales_invoice_doc.submit()
+
+    #remove guest from guest in house list
+    
+
+        

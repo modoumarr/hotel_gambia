@@ -12,6 +12,9 @@ frappe.ui.form.on("Hotel Check Out", {
       };
     });
   },
+  refresh: function(frm) {
+    //get customer unpaid balance
+  },
 
   validate: function(frm){
     if ((frm.doc.net_total_amount - frm.doc.total_payments - frm.doc.amount_paid - frm.doc.discount - frm.food_discount) > 0 && frm.doc.customer == 'Hotel Walk In Customer'){
@@ -139,7 +142,15 @@ frappe.ui.form.on("Hotel Check Out", {
   },
 
   room: function(frm) {
+    frm.call("get_unpaid_balance").then(r => {
+      if (r.message) {
+        frm.doc.unpaid_balance = r.message;
+        frm.refresh_field("unpaid_balance");
+      }
+    });
+    
     if (frm.doc.room != undefined) {
+
       frm
         .call("get_check_in_details")
         .then(r => {

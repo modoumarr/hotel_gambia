@@ -1,7 +1,8 @@
 {
  "actions": [],
  "autoname": "naming_series:",
- "creation": "2020-01-29 14:57:03.679302",
+ "creation": "2024-02-26 05:28:36.784888",
+ "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -12,27 +13,26 @@
   "naming_series",
   "guest_id",
   "guest_photo_attachment",
-  "check_in",
+  "arrival_date",
   "company",
   "column_break_7",
   "posting_date",
   "passport_no",
-  "check_out",
+  "departure",
   "cnic",
   "contact_no",
   "column_break_13",
   "guest_name",
   "guest_photo",
-  "duration",
   "section_break_yt54i",
-  "source",
+  "channel",
+  "column_break_x9vzp",
+  "stay_unit",
   "room_details_section",
   "rooms",
-  "total_amount",
-  "section_break_17",
+  "amended_from",
   "status",
-  "expectation_date",
-  "amended_from"
+  "invoice_created"
  ],
  "fields": [
   {
@@ -56,10 +56,36 @@
   {
    "fieldname": "naming_series",
    "fieldtype": "Select",
+   "hidden": 1,
    "label": "Series",
-   "options": "CHK-IN-.YYYY.-",
+   "options": "RSV-IN-.YYYY.-",
    "print_hide": 1,
-   "read_only": 1,
+   "read_only": 1
+  },
+  {
+   "fieldname": "guest_id",
+   "fieldtype": "Link",
+   "label": "Guest ID",
+   "options": "Hotel Guests",
+   "reqd": 1
+  },
+  {
+   "fetch_from": "guest_id.id_card_front_attachment",
+   "fieldname": "guest_photo_attachment",
+   "fieldtype": "Data",
+   "hidden": 1,
+   "label": "Guest Photo Attachment",
+   "read_only": 1
+  },
+  {
+   "default": "Woodpecker Resort",
+   "fieldname": "company",
+   "fieldtype": "Link",
+   "hidden": 1,
+   "label": "Company",
+   "options": "Company",
+   "print_hide": 1,
+   "remember_last_selected_value": 1,
    "reqd": 1
   },
   {
@@ -67,56 +93,20 @@
    "fieldtype": "Column Break"
   },
   {
-   "fieldname": "room_details_section",
-   "fieldtype": "Section Break",
-   "label": "Room Details"
-  },
-  {
-   "fieldname": "column_break_13",
-   "fieldtype": "Column Break"
-  },
-  {
-   "fieldname": "section_break_17",
-   "fieldtype": "Section Break"
-  },
-  {
-   "default": "Draft",
-   "fieldname": "status",
-   "fieldtype": "Select",
-   "in_list_view": 1,
-   "label": "Status",
-   "no_copy": 1,
-   "options": "\nDraft\nTo Check Out\nCompleted\nCancelled",
-   "print_hide": 1,
-   "read_only": 1,
-   "reqd": 1,
-   "search_index": 1
-  },
-  {
-   "fieldname": "amended_from",
-   "fieldtype": "Link",
-   "label": "Amended From",
-   "no_copy": 1,
-   "options": "Hotel Check In",
-   "print_hide": 1,
-   "read_only": 1
-  },
-  {
-   "fetch_from": "guest_id.guest_name",
-   "fieldname": "guest_name",
-   "fieldtype": "Data",
-   "in_list_view": 1,
-   "in_standard_filter": 1,
-   "label": "Guest Name",
-   "read_only": 1
-  },
-  {
-   "default": "now",
+   "default": "Today",
    "fieldname": "posting_date",
    "fieldtype": "Date",
+   "hidden": 1,
    "label": "Posting Date",
    "read_only": 1,
    "reqd": 1
+  },
+  {
+   "fetch_from": "guest_id.passport_no",
+   "fieldname": "passport_no",
+   "fieldtype": "Data",
+   "label": "Passport No",
+   "read_only": 1
   },
   {
    "fetch_from": "guest_id.cnic",
@@ -133,25 +123,16 @@
    "read_only": 1
   },
   {
-   "fieldname": "guest_id",
-   "fieldtype": "Link",
-   "label": "Guest ID",
-   "options": "Hotel Guests",
-   "reqd": 1
+   "fieldname": "column_break_13",
+   "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "guest_id.passport_no",
-   "fieldname": "passport_no",
+   "fetch_from": "guest_id.guest_name",
+   "fieldname": "guest_name",
    "fieldtype": "Data",
-   "label": "Passport No",
-   "read_only": 1
-  },
-  {
-   "fetch_from": "guest_id.id_card_front_attachment",
-   "fieldname": "guest_photo_attachment",
-   "fieldtype": "Data",
-   "hidden": 1,
-   "label": "Guest Photo Attachment",
+   "in_list_view": 1,
+   "in_standard_filter": 1,
+   "label": "Guest Name",
    "read_only": 1
   },
   {
@@ -162,6 +143,74 @@
    "label": "Guest Photo"
   },
   {
+   "fieldname": "section_break_yt54i",
+   "fieldtype": "Section Break",
+   "label": "Booking Details"
+  },
+  {
+   "fieldname": "room_details_section",
+   "fieldtype": "Section Break",
+   "label": "Room Details"
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Reservation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "fieldname": "amended_from",
+   "fieldtype": "Link",
+   "label": "Amended From",
+   "no_copy": 1,
+   "options": "Reservation",
+   "print_hide": 1,
+   "read_only": 1,
+   "search_index": 1
+  },
+  {
+   "default": "Draft",
+   "fieldname": "status",
+   "fieldtype": "Select",
+   "hidden": 1,
+   "label": "Status",
+   "options": "\nDraft\nTo Check In\nChecked In\nCancelled"
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Link",
+   "label": "Channel",
+   "options": "Channel",
+   "reqd": 1
+  },
+  {
+   "default": "Per Night",
+   "fieldname": "stay_unit",
+   "fieldtype": "Select",
+   "label": "Stay Unit",
+   "options": "Per Night\nPer Hour"
+  },
+  {
+   "fieldname": "column_break_x9vzp",
+   "fieldtype": "Column Break"
+  },
+  {
+   "default": "now",
+   "fieldname": "arrival_date",
+   "fieldtype": "Date",
+   "label": "Arrival Date",
+   "reqd": 1
+  },
+  {
+   "fieldname": "departure",
+   "fieldtype": "Date",
+   "label": "Departure"
+  },
+  {
    "fieldname": "rooms",
    "fieldtype": "Table",
    "label": "Rooms",
@@ -169,66 +218,19 @@
    "reqd": 1
   },
   {
-   "fieldname": "total_amount",
-   "fieldtype": "Currency",
-   "hidden": 1,
-   "label": "Total Amount",
-   "options": "Currency",
-   "read_only": 1
-  },
-  {
-   "fieldname": "company",
-   "fieldtype": "Link",
-   "label": "Company",
-   "options": "Company",
-   "print_hide": 1,
-   "remember_last_selected_value": 1,
-   "reqd": 1
-  },
-  {
-   "default": "1",
-   "fieldname": "duration",
-   "fieldtype": "Data",
-   "label": "Duration Stay"
-  },
-  {
-   "fieldname": "source",
-   "fieldtype": "Select",
-   "label": "Source",
-   "options": "\nPrivate\nBooking.com\nExpedia",
-   "reqd": 1
-  },
-  {
-   "fieldname": "section_break_yt54i",
-   "fieldtype": "Section Break",
-   "label": "Booking Details"
-  },
-  {
-   "fieldname": "expectation_date",
-   "fieldtype": "Datetime",
-   "label": "Expectation Date"
-  },
-  {
-   "default": "now",
-   "fieldname": "check_in",
-   "fieldtype": "Date",
-   "label": "Check In Date",
-   "reqd": 1
-  },
-  {
-   "fieldname": "check_out",
-   "fieldtype": "Date",
-   "label": "Check Out Date",
-   "read_only": 1
+   "default": "0",
+   "fieldname": "invoice_created",
+   "fieldtype": "Check",
+   "label": "Invoice Created"
   }
  ],
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-02-29 08:19:37.105133",
+ "modified": "2024-02-29 12:48:55.988195",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
- "name": "Hotel Check In",
+ "name": "Reservation",
  "naming_rule": "By \"Naming Series\" field",
  "owner": "Administrator",
  "permissions": [

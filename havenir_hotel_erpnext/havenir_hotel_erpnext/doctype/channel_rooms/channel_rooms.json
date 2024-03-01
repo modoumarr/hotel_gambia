@@ -1,6 +1,7 @@
 {
  "actions": [],
- "creation": "2020-02-01 22:24:48.020303",
+ "creation": "2024-02-29 09:08:35.833580",
+ "default_view": "List",
  "doctype": "DocType",
  "editable_grid": 1,
  "engine": "InnoDB",
@@ -11,9 +12,8 @@
   "column_break_4",
   "price",
   "guests_details_section",
-  "time_basis",
   "column_break_8",
-  "female",
+  "occupancy",
   "column_break_10",
   "children",
   "section_break_12",
@@ -36,8 +36,27 @@
    "fieldtype": "Column Break"
   },
   {
+   "fetch_from": "room_no.room_type",
+   "fieldname": "room_type",
+   "fieldtype": "Link",
+   "in_list_view": 1,
+   "label": "Room Type",
+   "options": "Room Type",
+   "read_only": 1,
+   "reqd": 1
+  },
+  {
    "fieldname": "column_break_4",
    "fieldtype": "Column Break"
+  },
+  {
+   "fetch_from": "room_no.price",
+   "fieldname": "price",
+   "fieldtype": "Currency",
+   "in_list_view": 1,
+   "label": "Price",
+   "options": "Currency",
+   "reqd": 1
   },
   {
    "fieldname": "guests_details_section",
@@ -50,7 +69,7 @@
   },
   {
    "fetch_from": "room_type.capacity",
-   "fieldname": "female",
+   "fieldname": "occupancy",
    "fieldtype": "Int",
    "in_list_view": 1,
    "label": "Occupancy"
@@ -69,11 +88,6 @@
    "fieldtype": "Section Break"
   },
   {
-   "fieldname": "details",
-   "fieldtype": "Small Text",
-   "label": "Details"
-  },
-  {
    "fieldname": "extra_bed_issued",
    "fieldtype": "Int",
    "label": "Extra Bed Issued"
@@ -83,37 +97,17 @@
    "fieldtype": "Column Break"
   },
   {
-   "fetch_from": "room_no.room_type",
-   "fieldname": "room_type",
-   "fieldtype": "Link",
-   "in_list_view": 1,
-   "label": "Room Type",
-   "options": "Room Type",
-   "read_only": 1,
-   "reqd": 1
-  },
-  {
-   "fetch_from": "room_no.price",
-   "fieldname": "price",
-   "fieldtype": "Currency",
-   "in_list_view": 1,
-   "label": "Price",
-   "options": "Currency",
-   "reqd": 1
-  },
-  {
-   "fetch_from": "room_no.uom",
-   "fieldname": "time_basis",
-   "fieldtype": "Data",
-   "label": "Time Basis"
+   "fieldname": "details",
+   "fieldtype": "Small Text",
+   "label": "Details"
   }
  ],
  "istable": 1,
  "links": [],
- "modified": "2024-02-29 08:34:28.489076",
+ "modified": "2024-02-29 09:08:49.916891",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
- "name": "Hotel Check In Room",
+ "name": "Channel Rooms",
  "owner": "Administrator",
  "permissions": [],
  "quick_entry": 1,
