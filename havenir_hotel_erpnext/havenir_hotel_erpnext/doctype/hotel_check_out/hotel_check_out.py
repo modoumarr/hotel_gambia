@@ -303,7 +303,7 @@ def create_sales_invoice(self, all_checked_out):
                     'description': item_doc.description,
                     'qty': item.qty,
                     'uom': item_doc.stock_uom,
-                    'rate': item.rate,
+                    'rate': item.price,
                     'amount': item.amount,
                     'income_account': default_income_account
                 })
