@@ -92,7 +92,7 @@ class HotelCheckIn(Document):
                 {
                     "item_code": f'Room - {room.room_no}',
                     "qty": float(self.duration),  # Convert to float before assignment
-                    "rate": room.rate,  # Convert to float before assignment
+                    "rate": room.price,  # Convert to float before assignment
                     "amount": float(room.rate) * float(self.duration),  # Convert to float before multiplication
                 },
             )
