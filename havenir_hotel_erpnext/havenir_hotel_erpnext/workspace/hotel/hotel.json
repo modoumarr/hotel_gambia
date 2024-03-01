@@ -1,0 +1,149 @@
+{
+ "charts": [
+  {
+   "chart_name": "Hotel Bookings",
+   "label": "Hotel Bookings"
+  }
+ ],
+ "content": "[{\"id\":\"VCrktVDau9\",\"type\":\"header\",\"data\":{\"text\":\"<span style=\\\"font-size: 18px;\\\">Dashboard</span>\",\"col\":12}},{\"id\":\"_FtXyHv-mU\",\"type\":\"chart\",\"data\":{\"chart_name\":\"Hotel Bookings\",\"col\":12}},{\"id\":\"wF3pjKe0s1\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Rooms\",\"col\":3}},{\"id\":\"n2ijQO5v0W\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Available Rooms\",\"col\":3}},{\"id\":\"y12qPKsS9A\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Today Bookings\",\"col\":3}},{\"id\":\"ZIQR0TluI_\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Total Bookings (This Month)\",\"col\":3}},{\"id\":\"5daVWKsHsi\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Arrivals\",\"col\":4}},{\"id\":\"fCYCp9Lrro\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"Departure\",\"col\":4}},{\"id\":\"t1Y2-R7MmK\",\"type\":\"number_card\",\"data\":{\"number_card_name\":\"In House\",\"col\":4}},{\"id\":\"ulVwRgKArE\",\"type\":\"spacer\",\"data\":{\"col\":12}},{\"id\":\"ZyVG4-PzOp\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Check In\",\"col\":3}},{\"id\":\"Hoy5b-n-dd\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Check Out\",\"col\":3}},{\"id\":\"TjcbR73MrH\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Guests\",\"col\":3}},{\"id\":\"0ID7cwRInn\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Hotel Food Order\",\"col\":3}},{\"id\":\"LuqallDc66\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Room Type\",\"col\":3}},{\"id\":\"0Xkq6rQ7-L\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Rooms\",\"col\":3}},{\"id\":\"NkMqhIfufF\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Sales Invoice\",\"col\":3}},{\"id\":\"-X1c4c18vK\",\"type\":\"shortcut\",\"data\":{\"shortcut_name\":\"Booking Cancellation\",\"col\":3}},{\"id\":\"pjg2lB6N18\",\"type\":\"card\",\"data\":{\"card_name\":\"Hotel Master\",\"col\":4}}]",
+ "creation": "2023-07-16 18:01:20.570804",
+ "custom_blocks": [],
+ "docstatus": 0,
+ "doctype": "Workspace",
+ "for_user": "",
+ "hide_custom": 0,
+ "icon": "dashboard-list",
+ "idx": 0,
+ "is_hidden": 0,
+ "label": "Hotel",
+ "links": [
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Hotel Master",
+   "link_count": 2,
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Card Break"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Reservation",
+   "link_count": 0,
+   "link_to": "Reservation",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  },
+  {
+   "hidden": 0,
+   "is_query_report": 0,
+   "label": "Guest In House",
+   "link_count": 0,
+   "link_to": "Guest In House",
+   "link_type": "DocType",
+   "onboard": 0,
+   "type": "Link"
+  }
+ ],
+ "modified": "2024-03-01 19:11:21.411382",
+ "modified_by": "Administrator",
+ "module": "Havenir Hotel Erpnext",
+ "name": "Hotel",
+ "number_cards": [
+  {
+   "label": "Arrivals",
+   "number_card_name": "Arrivals"
+  },
+  {
+   "label": "Departure",
+   "number_card_name": "Departure"
+  },
+  {
+   "label": "Total Bookings (This Month)",
+   "number_card_name": "Total Bookings (This Month)"
+  },
+  {
+   "label": "In House",
+   "number_card_name": "In House"
+  },
+  {
+   "label": "Total Rooms",
+   "number_card_name": "Total Rooms"
+  },
+  {
+   "label": "Available Rooms",
+   "number_card_name": "Available Rooms"
+  },
+  {
+   "label": "Today Bookings",
+   "number_card_name": "Today Bookings"
+  }
+ ],
+ "owner": "Administrator",
+ "parent_page": "",
+ "public": 1,
+ "quick_lists": [],
+ "roles": [],
+ "sequence_id": 1.0,
+ "shortcuts": [
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hotel Check In",
+   "link_to": "Hotel Check In",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Rooms",
+   "link_to": "Rooms",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Booking Cancellation",
+   "link_to": "Hotel Cancellation",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Sales Invoice",
+   "link_to": "Sales Invoice",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Room Type",
+   "link_to": "Room Type",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hotel Check Out",
+   "link_to": "Hotel Check Out",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hotel Guests",
+   "link_to": "Hotel Guests",
+   "type": "DocType"
+  },
+  {
+   "color": "Grey",
+   "doc_view": "List",
+   "label": "Hotel Food Order",
+   "link_to": "Hotel Food Order",
+   "type": "DocType"
+  }
+ ],
+ "title": "Hotel"
+}

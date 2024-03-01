@@ -133,7 +133,7 @@
    "fieldname": "gender",
    "fieldtype": "Select",
    "label": "Gender",
-   "options": "\nMale\nFemale"
+   "options": "\nMale\nFemale\n2 Females\nCouples\n2 Males"
   },
   {
    "fieldname": "phone_no",
@@ -142,7 +142,7 @@
   }
  ],
  "links": [],
- "modified": "2023-07-29 12:49:27.676288",
+ "modified": "2024-03-01 09:16:20.673652",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Guests",
