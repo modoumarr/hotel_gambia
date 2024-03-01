@@ -35,7 +35,9 @@ class HotelCheckIn(Document):
                 if reservations:
                         for reservation in reservations:
                             if getdate(reservation.arrival_date) <= getdate(self.check_in) and getdate(self.check_in) <= getdate(reservation.departure):
-                                frappe.throw(f'Room {room.name} is already reserved for the selected date')
+                                if reservation.departure:
+                                    frappe.throw(f'Room {room.name} is already reserved the selected date: (From {reservation.arrival_date} - {reservation.departure_date})')
+                                frappe.throw(f'Room {room.name} is already reserved for the selected date: ({reservation.arrival_date})')
 
     def on_submit(self):
         self.create_sales_invoice()
