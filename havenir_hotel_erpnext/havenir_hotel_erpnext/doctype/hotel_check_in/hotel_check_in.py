@@ -80,7 +80,7 @@ class HotelCheckIn(Document):
         sales_invoice_doc.customer = self.guest_id
         sales_invoice_doc.check_in_id = self.name
         sales_invoice_doc.check_in_date = self.check_in
-        sales_invoice_doc.due_date = add_to_date(self.check_in, days=self.duration, as_string=True)
+        sales_invoice_doc.due_date = add_to_date(self.check_in, days=self.duration)
         sales_invoice_doc.debit_to = company.default_receivable_account
 
         total_amount = 0
