@@ -92,8 +92,8 @@ class HotelCheckIn(Document):
                 {
                     "item_code": f'Room - {room.room_no}',
                     "qty": float(self.duration),  # Convert to float before assignment
-                    "rate": float(room_price),  # Convert to float before assignment
-                    "amount": float(room_price) * float(self.duration),  # Convert to float before multiplication
+                    "rate": room.rate,  # Convert to float before assignment
+                    "amount": float(room.rate) * float(self.duration),  # Convert to float before multiplication
                 },
             )
         sales_invoice_doc.insert(ignore_permissions=True)
