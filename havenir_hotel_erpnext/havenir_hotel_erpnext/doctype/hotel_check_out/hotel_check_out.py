@@ -122,7 +122,7 @@ class HotelCheckOut(Document):
         check_in_dict = {}
         for room in hotel_check_in.rooms:
             if room.room_no == self.room:
-                check_in_dict['room'] = room.room_no
+                check_in_dict['room'] = f'Room - {room.room_no}'
                 check_in_dict['price'] = room.price
 
         # Geting Hotel Food Order Details
@@ -286,7 +286,7 @@ def create_sales_invoice(self, all_checked_out):
         # Looping through the checkout items and excluding room item
         for item in self.items:
             if item.document_type != "Hotel Check In":
-                item_doc = frappe.get_doc('Item', item.item)
+                item_doc = frappe.get_doc('Item', f'Room - {item.item}')
                 # Getting Item default Income Account
                 default_income_account = None
                 for item_default in item_doc.item_defaults:
@@ -341,7 +341,7 @@ def create_sales_invoice(self, all_checked_out):
             # Looping through the check out items
             for item in self.items:
                 if item.is_pos == 1:
-                    item_doc = frappe.get_doc('Item', item.item)
+                    item_doc = frappe.get_doc('Item', f'Room - {item.item}')
 
                     # Getting Item default Income Account
                     default_income_account = None
