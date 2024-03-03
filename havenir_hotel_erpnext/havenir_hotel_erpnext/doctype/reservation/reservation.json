@@ -32,7 +32,8 @@
   "rooms",
   "amended_from",
   "status",
-  "invoice_created"
+  "invoice_created",
+  "checked_in"
  ],
  "fields": [
   {
@@ -222,12 +223,19 @@
    "fieldname": "invoice_created",
    "fieldtype": "Check",
    "label": "Invoice Created"
+  },
+  {
+   "default": "0",
+   "fieldname": "checked_in",
+   "fieldtype": "Check",
+   "label": "Checked In",
+   "read_only": 1
   }
  ],
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-02-29 12:48:55.988195",
+ "modified": "2024-03-03 17:20:33.610317",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Reservation",

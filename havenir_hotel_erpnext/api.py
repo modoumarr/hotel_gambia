@@ -1,6 +1,7 @@
 import frappe
 from frappe.model.document import Document
 from erpnext.accounts.utils import get_balance_on
+import json
 
 @frappe.whitelist()
 def get_sales_invoice(guest):
@@ -90,5 +91,17 @@ def create_invoice(doc, method=None):
             room_doc.save()
         reservation.status = 'To Check In'
         reservation.save()
-        
-        
+    
+    #return a list of reservation
+@frappe.whitelist()
+def get_reservation():
+    return frappe.get_list('Reservation', fields=['*'])
+    #return a list of rooms
+    @frappe.whitelist()
+    def get_rooms():
+        return frappe.get_list('Rooms', fields=['name', 'room_no', 'room_type', 'room_status', 'price'])
+    
+    #return a list of Check In
+    @frappe.whitelist()
+    def get_check_in():
+        return frappe.get_list('Hotel Check In', fields=['name', 'guest_id', 'guest_name', 'check_in', 'check_out', 'status', 'rooms'])

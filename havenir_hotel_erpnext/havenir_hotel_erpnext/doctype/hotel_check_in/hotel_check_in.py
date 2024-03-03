@@ -46,6 +46,10 @@ class HotelCheckIn(Document):
                                     frappe.throw(f'Room {room.name} is already reserved for the selected date: ({reservation.arrival_date})')
 
     def on_submit(self):
+        if self.reservation_id:
+            frappe.db.set_value('Reservation', self.reservation_id, 'checked_in', 1)
+            frappe.db.set_value('Reservation', self.reservation_id, 'status', 'Checked In')
+
         self.create_sales_invoice()
         self.add_guest_to_in_house_guest()
         self.status = 'To Check Out'
@@ -58,8 +62,7 @@ class HotelCheckIn(Document):
             if room_doc.expectation_id:
                 room_doc.db_set('expectation_id', None)
                 room_doc.db_set('expectation_date', None)
-        # send_payment_sms(self)
-
+        
     def on_cancel(self):
         self.status = "Cancelled"
         doc = frappe.get_doc('Hotel Check In', self.name)

@@ -19,14 +19,16 @@ class Reservation(Document):
 			frappe.throw('Departure date must not be less than arrival date')
 		
 	#check in the room if check in button is selected
-	
+
+		
+
+
 	def on_submit(self):
 		self.reserve_room()
 		self.status = 'To Check In'
 		doc = frappe.get_doc('Reservation', self.name)
 		doc.db_set('status', 'To Check In')
-		# send_payment_sms(self)
-
+		
 	#set check the reserved field to true
 	def reserve_room(self):
 		for room in self.rooms:
@@ -67,5 +69,9 @@ class Reservation(Document):
 		else:
 			return False
 	
-	#create invoice
 
+#get reservation information
+@frappe.whitelist()
+def get_rooms(doc):
+	rooms = frappe.get_doc('Reservation', doc.name)
+	return rooms.get('rooms')

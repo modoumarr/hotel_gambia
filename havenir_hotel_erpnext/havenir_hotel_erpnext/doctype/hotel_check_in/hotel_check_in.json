@@ -31,7 +31,8 @@
   "total_amount",
   "section_break_17",
   "status",
-  "amended_from"
+  "amended_from",
+  "reservation_id"
  ],
  "fields": [
   {
@@ -215,12 +216,17 @@
    "label": "Channel",
    "options": "Channel",
    "reqd": 1
+  },
+  {
+   "fieldname": "reservation_id",
+   "fieldtype": "Data",
+   "label": "Reservation Id"
   }
  ],
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-01 05:32:02.075585",
+ "modified": "2024-03-03 17:41:01.947294",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check In",
