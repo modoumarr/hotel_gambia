@@ -15,6 +15,7 @@ class Rooms(Document):
 			item.is_stock_item = 0
 			item.include_item_in_manufacturing = 0  
 			item.item_group = "Rooms"
+			item.standard_rate = self.price
 			is_purchased = 0
 			item.insert()
 			frappe.db.commit()

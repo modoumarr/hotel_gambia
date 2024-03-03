@@ -21,7 +21,8 @@ frappe.ui.form.on('Reservation', {
 	refresh: function(frm) {
 		//only show the button if the document statuse is To Check In
 
-		if (!frm.doc.checked_in) {
+		//check if the reservation is not checked in and not new and not cancelled
+		if (!frm.doc.checked_in && !frm.doc.is_new()) {
 
 
 		frm.add_custom_button(__('Check In'), function(){
