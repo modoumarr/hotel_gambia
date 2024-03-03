@@ -8,6 +8,18 @@ from frappe.utils import datetime, add_to_date, nowdate, getdate
 class Reservation(Document):
 	def validate(self):
 		self.validate_room()
+		#check if arrival date is not in the past
+		if getdate(self.arrival_date) < getdate(nowdate()):
+			frappe.throw('Arrival date must not be in the past')
+		#check if departure date is not in the past
+		if getdate(self.departure) < getdate(nowdate()):
+			frappe.throw('Departure date must not be in the past')
+		#check if departure date is not less than arrival date
+		if getdate(self.departure) < getdate(self.arrival_date):
+			frappe.throw('Departure date must not be less than arrival date')
+		
+	#check in the room if check in button is selected
+	
 	def on_submit(self):
 		self.reserve_room()
 		self.status = 'To Check In'

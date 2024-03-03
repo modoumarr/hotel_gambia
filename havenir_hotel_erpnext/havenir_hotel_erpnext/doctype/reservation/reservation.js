@@ -5,10 +5,10 @@ frappe.ui.form.on('Reservation', {
 	refresh: function(frm) {
 		//add a button to check in the reservation
 				frm.add_custom_button(__('Check In'), function() {
-					frappe.call({
-						method: "havenir_hotel_erpnext.havenir_hotel_erpnext.doctype.reservation.reservation.check_in",
+					frm.call({
+						method: "havenir_hotel_erpnext.api.check_in",
 						args: {
-							"reservation": frm.doc.name
+							"doc": frm.doc.name
 						},
 						callback: function(r) {
 							if(r.message) {

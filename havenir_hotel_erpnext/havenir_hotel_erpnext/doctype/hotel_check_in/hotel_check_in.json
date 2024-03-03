@@ -25,13 +25,12 @@
   "guest_photo",
   "duration",
   "section_break_yt54i",
-  "source",
+  "channel",
   "room_details_section",
   "rooms",
   "total_amount",
   "section_break_17",
   "status",
-  "expectation_date",
   "amended_from"
  ],
  "fields": [
@@ -83,6 +82,7 @@
    "default": "Draft",
    "fieldname": "status",
    "fieldtype": "Select",
+   "hidden": 1,
    "in_list_view": 1,
    "label": "Status",
    "no_copy": 1,
@@ -192,21 +192,9 @@
    "label": "Duration Stay"
   },
   {
-   "fieldname": "source",
-   "fieldtype": "Select",
-   "label": "Source",
-   "options": "\nPrivate\nBooking.com\nExpedia",
-   "reqd": 1
-  },
-  {
    "fieldname": "section_break_yt54i",
    "fieldtype": "Section Break",
    "label": "Booking Details"
-  },
-  {
-   "fieldname": "expectation_date",
-   "fieldtype": "Datetime",
-   "label": "Expectation Date"
   },
   {
    "default": "now",
@@ -220,12 +208,19 @@
    "fieldtype": "Date",
    "label": "Check Out Date",
    "read_only": 1
+  },
+  {
+   "fieldname": "channel",
+   "fieldtype": "Link",
+   "label": "Channel",
+   "options": "Channel",
+   "reqd": 1
   }
  ],
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-02-29 08:19:37.105133",
+ "modified": "2024-03-01 05:32:02.075585",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check In",

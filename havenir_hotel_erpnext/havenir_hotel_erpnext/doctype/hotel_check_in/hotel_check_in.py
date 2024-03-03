@@ -13,6 +13,11 @@ from frappe.utils import add_to_date, nowdate, getdate
 
 class HotelCheckIn(Document):
     def validate(self):
+        #cehck if booking date is not in the past
+        if getdate(self.check_in) < getdate(nowdate()):
+            frappe.throw('Check-In date must not be in the past')
+            
+
         for room in self.rooms:
             room_doc = frappe.get_doc('Rooms', room.room_no)
             if room_doc.room_status == 'Checked In' :

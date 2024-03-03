@@ -19,7 +19,30 @@ def get_unpaid():
         )
         guest.balance = balance
         guest.save()
-        
+@frappe.whitelist()
+def check_in(doc):
+    doc = frappe.get_doc("Reservation", doc)
+    doc.db_set('status', 'To Check In')
+    for room in doc.rooms:
+        if room.room_status == 'Checked In':
+            frappe.throw(f'Room {room.room_no} is already checked in')
+    check_in_doc = frappe.new_doc('Hotel Check In')
+    check_in_doc.guest_id = doc.guest_id
+    check_in_doc.check_in = doc.arrival_date
+    check_in_doc.guest_name = doc.guest_name
+    check_in_doc.posting_date = nowdate()
+    check_in_doc.duration = (getdate(doc.departure) - getdate(doc.arrival_date)).days
+    check_in_doc.channel = doc.channel
+    check_in_doc.company = doc.company
+    for room in doc.rooms:
+        check_in_doc.append('rooms', {
+            'room_no': room.room_no
+        })
+    check_in_doc.save()
+    check_in_doc.submit()
+    doc.status = 'Checked In'
+    doc.save()
+    
 
     # return invoices
 @frappe.whitelist()
