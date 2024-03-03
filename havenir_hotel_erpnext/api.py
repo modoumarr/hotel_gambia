@@ -95,7 +95,7 @@ def create_invoice(doc, method=None):
     #return a list of reservation
 @frappe.whitelist()
 def get_reservation():
-    return frappe.get_list('Reservation', fields=['*'])
+    return frappe.get_list('Reservation')
     #return a list of rooms
 @frappe.whitelist()
 def get_rooms():

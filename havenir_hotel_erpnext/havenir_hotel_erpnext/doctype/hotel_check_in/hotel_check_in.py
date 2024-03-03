@@ -24,14 +24,7 @@ class HotelCheckIn(Document):
                 frappe.throw('Room {} is not Available'.format(room.room_no))
         self.validate_room()
 
-            # if room_doc.expectation_id:
-            #     expectation_date = room_doc.expectation_date
-            #     expectation_doc = frappe.get_doc('Hotel Expectation', room_doc.expectation_id)
-            #     duration = add_to_date(expectation_date, days=expectation_doc.duration, as_string=True, as_datetime=True)
-            #     check_in_date = datetime(self.check_in)
-            #     if datetime(expectation_date) <= check_in_date <= datetime(duration):
-            #         frappe.throw('Check-In date must not fall within the Expectation date range for room {}'.format(room.room_no))
-
+           
 
     def validate_room(self):
             for room in self.rooms:
@@ -59,9 +52,7 @@ class HotelCheckIn(Document):
             room_doc = frappe.get_doc('Rooms', room.room_no)
             room_doc.db_set('check_in_id', self.name)
             room_doc.db_set('room_status', 'Checked In')
-            if room_doc.expectation_id:
-                room_doc.db_set('expectation_id', None)
-                room_doc.db_set('expectation_date', None)
+            
         
     def on_cancel(self):
         self.status = "Cancelled"
