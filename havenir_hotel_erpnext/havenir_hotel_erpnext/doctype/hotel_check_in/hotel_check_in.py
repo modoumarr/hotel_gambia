@@ -14,8 +14,8 @@ from frappe.utils import add_to_date, nowdate, getdate, date_diff, time_diff_in_
 class HotelCheckIn(Document):
     def validate(self):
         #cehck if booking date is not in the past
-        if getdate(self.check_in) < getdate(nowdate()):
-            frappe.throw('Check-In date must not be in the past')
+        # if getdate(self.check_in) < getdate(nowdate()):
+        #     frappe.throw('Check-In date must not be in the past')
         
         #checkif check in is per nigth or per hour
         if self.stay_type == 'Per Night':
