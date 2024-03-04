@@ -6,8 +6,8 @@ from __future__ import unicode_literals
 import frappe
 from frappe.model.document import Document
 from frappe.core.doctype.sms_settings.sms_settings import send_sms
-from datetime import datetime
-from frappe.utils import add_to_date, nowdate, getdate
+from datetime import datetime, timedelta
+from frappe.utils import add_to_date, nowdate, getdate, date_diff, time_diff_in_hours
 
 
 
@@ -16,6 +16,11 @@ class HotelCheckIn(Document):
         #cehck if booking date is not in the past
         if getdate(self.check_in) < getdate(nowdate()):
             frappe.throw('Check-In date must not be in the past')
+        
+        #checkif check in is per nigth or per hour
+        if self.stay_type == 'Per Night':
+            if getdate(self.check_out) < getdate(self.check_in):
+                frappe.throw('Check-Out date must not be in the past')
             
 
         for room in self.rooms:
@@ -142,6 +147,67 @@ def send_payment_sms(self):
         msg = 'Dear '
         msg += self.guest_name
         msg += ''',\nWe are delighted that you have selected our hotel. The entire team at the Hotel PakHeritage welcomes you and trust your stay with us will be both enjoyable and comfortable.\nRegards,\nHotel Management'''
-        send_sms([self.contact_no], msg = msg)
+        send_sms([self.contact_no], msg=msg)
 
-  
+@frappe.whitelist()
+def extend_stay(doc, check_out):
+
+    duration = int(frappe.get_value('Hotel Check In', doc, 'duration'))
+    stay_type = frappe.get_value('Hotel Check In', doc, 'stay_type')
+    new_diff = 0
+    if stay_type == 'Per Night':
+        check_in = frappe.get_value('Hotel Check In', doc, 'check_in')
+        new_diff = int(date_diff(getdate(check_out), check_in))
+        if new_diff < 0:
+            frappe.throw('Check-Out date must not be in the past')
+        elif new_diff <= duration:
+            frappe.throw('Duration must be greater than the previous duration')
+        
+        else:
+            frappe.db.update('Hotel Check In', doc, 'duration', new_diff)
+            frappe.db.update('Hotel Check In', doc, 'check_out', check_out)
+            frappe.db.commit()
+    else:
+        check_in = frappe.get_value('Hotel Check In', doc, 'check_in_time')
+        new_diff = int(time_diff_in_hours(check_out, check_in))
+        if new_diff < 0:
+            frappe.throw('Check-Out time must be greater than Check-In time')
+        elif new_diff <= duration:
+            frappe.throw('Duration must be greater than the previous duration')
+        else:    
+            frappe.db.update('Hotel Check In', doc, 'check_out_time', check_out)
+            frappe.db.update('Hotel Check In', doc, 'duration', new_diff)
+            frappe.db.commit()
+    
+    #create extra charges and invoice
+    check_in_doc = frappe.get_doc('Hotel Check In', doc)
+    sales_invoice_doc = frappe.new_doc("Sales Invoice")
+    company = frappe.get_doc("Company", frappe.db.get_value('Hotel Check In', doc, 'company'))
+    sales_invoice_doc.discount_amount = 0
+    sales_invoice_doc.customer = frappe.db.get_value('Hotel Check In', doc, 'guest_id')
+    sales_invoice_doc.check_in_id = doc
+    sales_invoice_doc.check_in_date = frappe.db.get_value('Hotel Check In', doc, 'check_in')
+    sales_invoice_doc.due_date = check_out
+    sales_invoice_doc.debit_to = company.default_receivable_account
+    total_amount = 0
+    for room in check_in_doc.rooms:
+        room_price = room.price
+        total_amount += float(room_price)  # Convert to float before addition
+        sales_invoice_doc.append(
+            "items",
+                {
+                    "item_code": f'Room - {room.room_no}',
+                    "qty": float(new_diff),  # Convert to float before assignment
+                    "rate": room.price,  # Convert to float before assignment
+                    "amount": float(room.price) * float(new_diff),  # Convert to float before multiplication
+                },
+            )
+    sales_invoice_doc.insert(ignore_permissions=True)
+    sales_invoice_doc.submit()
+    frappe.msgprint('Check-Out date has been extended to {}'.format(check_out))
+
+
+        
+   
+    
+#new duration

@@ -18,10 +18,7 @@ class Reservation(Document):
 		if getdate(self.departure) < getdate(self.arrival_date):
 			frappe.throw('Departure date must not be less than arrival date')
 		
-	#check in the room if check in button is selected
-
-		
-
+	
 
 	def on_submit(self):
 		self.reserve_room()

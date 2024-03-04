@@ -13,19 +13,22 @@
   "guest_id",
   "guest_photo_attachment",
   "check_in",
-  "company",
+  "check_in_time",
   "column_break_7",
   "posting_date",
   "passport_no",
   "check_out",
+  "check_out_time",
   "cnic",
   "contact_no",
   "column_break_13",
   "guest_name",
-  "guest_photo",
+  "stay_type",
   "duration",
   "section_break_yt54i",
   "channel",
+  "column_break_qdjxk",
+  "company",
   "room_details_section",
   "rooms",
   "total_amount",
@@ -156,13 +159,6 @@
    "read_only": 1
   },
   {
-   "depends_on": "eval: doc.guest_photo_attachment",
-   "fieldname": "guest_photo",
-   "fieldtype": "HTML",
-   "in_preview": 1,
-   "label": "Guest Photo"
-  },
-  {
    "fieldname": "rooms",
    "fieldtype": "Table",
    "label": "Rooms",
@@ -190,7 +186,8 @@
    "default": "1",
    "fieldname": "duration",
    "fieldtype": "Data",
-   "label": "Duration Stay"
+   "label": "Duration Stay",
+   "read_only": 1
   },
   {
    "fieldname": "section_break_yt54i",
@@ -199,16 +196,17 @@
   },
   {
    "default": "now",
+   "depends_on": "eval:doc.stay_type == 'Per Night'",
    "fieldname": "check_in",
    "fieldtype": "Date",
    "label": "Check In Date",
    "reqd": 1
   },
   {
+   "depends_on": "eval:doc.stay_type == 'Per Night'",
    "fieldname": "check_out",
    "fieldtype": "Date",
-   "label": "Check Out Date",
-   "read_only": 1
+   "label": "Check Out Date"
   },
   {
    "fieldname": "channel",
@@ -220,13 +218,38 @@
   {
    "fieldname": "reservation_id",
    "fieldtype": "Data",
+   "hidden": 1,
    "label": "Reservation Id"
+  },
+  {
+   "fieldname": "column_break_qdjxk",
+   "fieldtype": "Column Break"
+  },
+  {
+   "fieldname": "stay_type",
+   "fieldtype": "Select",
+   "label": "Stay Type",
+   "options": "Per Night\nPer Hour",
+   "reqd": 1
+  },
+  {
+   "depends_on": "eval:doc.stay_type == 'Per Hour'",
+   "fieldname": "check_out_time",
+   "fieldtype": "Datetime",
+   "label": "Check Out Time"
+  },
+  {
+   "default": "Now",
+   "depends_on": "eval:doc.stay_type == 'Per Hour'",
+   "fieldname": "check_in_time",
+   "fieldtype": "Datetime",
+   "label": "Check In Time"
   }
  ],
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 17:41:01.947294",
+ "modified": "2024-03-04 08:27:53.049037",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Check In",

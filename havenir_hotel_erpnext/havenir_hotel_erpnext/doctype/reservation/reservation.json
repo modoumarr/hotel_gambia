@@ -30,10 +30,10 @@
   "stay_unit",
   "room_details_section",
   "rooms",
-  "amended_from",
   "status",
   "invoice_created",
-  "checked_in"
+  "checked_in",
+  "amended_from"
  ],
  "fields": [
   {
@@ -147,8 +147,10 @@
    "label": "Booking Details"
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "room_details_section",
    "fieldtype": "Section Break",
+   "ignore_user_permissions": 1,
    "label": "Room Details"
   },
   {
@@ -198,20 +200,27 @@
    "fieldtype": "Column Break"
   },
   {
+   "allow_on_submit": 1,
    "default": "now",
    "fieldname": "arrival_date",
    "fieldtype": "Date",
+   "ignore_user_permissions": 1,
    "label": "Arrival Date",
    "reqd": 1
   },
   {
+   "allow_on_submit": 1,
    "fieldname": "departure",
    "fieldtype": "Date",
+   "ignore_user_permissions": 1,
    "label": "Departure"
   },
   {
+   "allow_bulk_edit": 1,
+   "allow_on_submit": 1,
    "fieldname": "rooms",
    "fieldtype": "Table",
+   "ignore_user_permissions": 1,
    "label": "Rooms",
    "options": "Hotel Check In Room",
    "reqd": 1
@@ -220,12 +229,14 @@
    "default": "0",
    "fieldname": "invoice_created",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Invoice Created"
   },
   {
    "default": "0",
    "fieldname": "checked_in",
    "fieldtype": "Check",
+   "hidden": 1,
    "label": "Checked In",
    "read_only": 1
   }
@@ -233,7 +244,7 @@
  "is_calendar_and_gantt": 1,
  "is_submittable": 1,
  "links": [],
- "modified": "2024-03-03 23:38:09.725810",
+ "modified": "2024-03-04 01:25:43.920456",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Reservation",

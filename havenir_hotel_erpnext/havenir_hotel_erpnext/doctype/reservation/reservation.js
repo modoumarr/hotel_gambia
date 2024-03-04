@@ -12,17 +12,14 @@
 
 frappe.ui.form.on('Reservation', {
 
-	//add a button to check in the reservation
-	after_save: function(frm) {
-		
-	},
+	//add a button to check in the reservatio
 
 			
 	refresh: function(frm) {
 		//only show the button if the document statuse is To Check In
 
 		//check if the reservation is not checked in and not new and not cancelled
-		if (!frm.doc.checked_in && !frm.doc.is_new()) {
+		if (!frm.doc.checked_in && !frm.is_new() ) {
 
 
 		frm.add_custom_button(__('Check In'), function(){
@@ -55,8 +52,97 @@ frappe.ui.form.on('Reservation', {
 		
 			
 		}, __("Make"));	
+
+		//add a button to cancel the reservation
+		frm.add_custom_button(__('Cancel'), function(){
+			//get the rooms from the reservation
+			frm.set_value('status', 'Cancelled');
+			frm.save();
+		}, __("Make"));	
+
+		//add a button to make edits to the reservation using a modal	
+		frm.add_custom_button(__('Edit'), function(){
+			let edit_dialog = new frappe.ui.Dialog({
+				title: 'Edit Reservation',
+				fields: [
+					{
+						'label': 'Arrival Date',
+						'fieldname': 'arrival_date',
+						'fieldtype': 'Date',
+						'reqd': 1,
+						'default': frm.doc.arrival_date
+					},
+					{
+						'label': 'Departure Date',
+						'fieldname': 'departure_date',
+						'fieldtype': 'Date',
+						'reqd': 1,
+						'default': frm.doc.departure
+					},
+					{
+						'label': 'Channel',
+						'fieldname': 'channel',
+						'fieldtype': 'Link',
+						'options': 'Channel',
+						'reqd': 1,
+						'default': frm.doc.channel
+					},
+					{
+						'lambel': 'Rooms',
+						'fieldname': 'rooms',
+						'fieldtype': 'Table',
+						'fields': [
+							{
+								'label': 'Room No',
+								'fieldname': 'room_no',
+								'fieldtype': 'Link',
+								'options': 'Rooms',
+								'reqd': 1,
+								'in_list_view': 1,
+							},
+							{
+								'label': 'Room Type',
+								'fieldname': 'room_type',
+								'fieldtype': 'Data',
+								'reqd': 1,
+								'in_list_view': 1,
+							},
+							{
+								'label': 'Price',
+								'fieldname': 'price',
+								'fieldtype': 'Currency',
+								'reqd': 1,
+								'in_list_view': 1,
+							},
+							{
+								'label': 'Occupancy',
+								'fieldname': 'occupancy',
+								'fieldtype': 'Int',
+								'reqd': 1,
+							}
+						]
+
+					}
+				],
+				primary_action: function(){
+					//get the values from the dialog
+					let values = edit_dialog.get_values();
+					//update the reservation
+					frm.set_value('arrival_date', values.arrival_date);
+					frm.set_value('departure_date', values.departure_date);
+					frm.set_value('channel', values.channel);
+					frm.save();
+					edit_dialog.hide();
+				},
+				primary_action_label: 'Save'
+			});
+			// edit_dialog.show();
+
+		
 	}			
-				}
+		, __("Make"));
+}
+	}
 			});
 
 			

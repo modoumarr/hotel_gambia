@@ -12,6 +12,9 @@ frappe.ui.form.on("Hotel Check In", {
       }
     });
   },
+    
+   
+    
   
   guest_id: function(frm){
     var image_html = '<img src="' + frm.doc.guest_photo_attachment + '">';
@@ -20,18 +23,43 @@ frappe.ui.form.on("Hotel Check In", {
   },
   
   refresh: function(frm){  
-    var image_html = '<img src="' + frm.doc.guest_photo_attachment + '">';
-    $(frm.fields_dict['guest_photo'].wrapper).html(image_html);
-    frm.refresh_field('guest_photo');
-  },
+   
 
-  // validate: function(frm){
-  //   for (var i in frm.doc.rooms){
-  //     if (frm.doc.rooms[i].male == 0 && frm.doc.rooms[i].female == 0){
-  //       frappe.throw('Please Enter Guests Details for Room ' + frm.doc.rooms[i].room_no);
-  //     }
-  //   }
-  // },
+     //create a button to prompt tp extend the stay
+     if (!frm.is_new()){
+
+     frm.add_custom_button(__('Extend Stay'), function(){
+      
+      
+      frappe.prompt([
+        {'fieldname': 'extend_date', 'fieldtype': 'Datetime', 'label': 'Extend Date', 'reqd': 1}
+      ],
+      function(values){
+        frm.call({
+          method: 'extend_stay',
+          args: {
+            'doc': frm.doc.name,
+            'check_out': values.extend_date
+          },
+          callback: function(r){
+            console.log(r);
+            if (!r.exc){
+              frm.reload_doc();
+            }
+          }
+        });
+      },
+      __('Extend Stay'));
+    
+  }, __('Make'));
+}
+
+
+  
+  
+    
+
+  },
 
   total_amount: function(frm){
     var temp_total_amount = 0;
@@ -42,6 +70,26 @@ frappe.ui.form.on("Hotel Check In", {
     }
     frm.doc.total_amount = temp_total_amount;
     frm.refresh_field('total_amount');
+  },  // validate: function(frm){
+    //   for (var i in frm.doc.rooms){
+    //     if (frm.doc.rooms[i].male == 0 && frm.doc.rooms[i].female == 0){
+    //       frappe.throw('Please Enter Guests Details for Room ' + frm.doc.rooms[i].room_no);
+    //     }
+    //   }
+    // },
+  
+  check_out: function(frm){
+    frm.set_value('duration', frappe.datetime.get_diff(frm.doc.check_out, frm.doc.check_in));
+  },
+  check_in: function(frm){
+    frm.set_value('duration', frappe.datetime.get_diff(frm.doc.check_out, frm.doc.check_in));
+  },
+  check_out_time: function(frm){
+    frm.set_value('duration', frappe.datetime.get_hour_diff(frm.doc.check_out_time, frm.doc.check_in_time));
+
+  },
+  check_in_time: function(frm){
+    frm.set_value('duration', frappe.datetime.get_hour_diff(frm.doc.check_out_time, frm.doc.check_in_time));
   }
 });
 
@@ -67,7 +115,7 @@ frappe.ui.form.on('Hotel Check In Room', {
     }
     frm.trigger('total_amount');
   },
-
+  
   rooms_remove: function(frm) {
     frm.trigger('total_amount');
   }

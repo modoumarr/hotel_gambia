@@ -13,7 +13,16 @@ class HotelCheckOut(Document):
         room_doc = frappe.get_doc('Rooms', self.room)
         if room_doc.room_status != 'Checked In' and room_doc.check_in_id == self.check_in_id:
             frappe.throw('Room Status is not Checked In')
-
+        # if(amount := get_balance_on(party_type="Customer", party=self.guest_id)):
+        #     frappe.throw('Guest has unpaid invoices')
+        # if self.amount_paid < self.total_amount:
+        #     frappe.throw('Amount Paid is less than Total Amount')
+        # if self.amount_paid > self.total_amount:
+        #     frappe.throw('Amount Paid is greater than Total Amount')
+        # if self.amount_paid == 0:
+        #     frappe.throw('Amount Paid is zero')
+        if (amount := get_balance_on(party_type="Customer", party=self.guest_id)) > 0:
+            frappe.throw(f'{self.guest_name} has unpaid balance of D{amount}')
     def remove_guest(self):
         doc = frappe.db.get("Guest In House", {"email": self.guest_id})
         if doc:
@@ -34,27 +43,28 @@ class HotelCheckOut(Document):
         check_in_doc = frappe.get_doc('Hotel Check In',self.check_in_id)
         all_checked_out = 1
 
+
         # Setting Food Orders to Complete
-        # room_food_order_list = frappe.get_list('Hotel Food Order', filters={
-        #     'status': 'To Check Out',
-        #     'room': self.room,
-        #     'check_in_id': self.check_in_id
-        # })
+        room_food_order_list = frappe.get_list('Hotel Food Order', filters={
+            'status': 'To Check Out',
+            'room': self.room,
+            'check_in_id': self.check_in_id
+        })
 
-        # for food_order in room_food_order_list:
-        #     food_order_doc = frappe.get_doc('Hotel Food Order', food_order.name)
-        #     food_order_doc.db_set('status','Completed')
+        for food_order in room_food_order_list:
+            food_order_doc = frappe.get_doc('Hotel Food Order', food_order.name)
+            food_order_doc.db_set('status','Completed')
 
-        # # Setting Laundry Orders to Complete
-        # room_laundry_order_list = frappe.get_list('Hotel Laundry Order', filters={
-        #     'status': 'To Check Out',
-        #     'room': self.room,
-        #     'check_in_id': self.check_in_id
-        # })
+        # Setting Laundry Orders to Complete
+        room_laundry_order_list = frappe.get_list('Hotel Laundry Order', filters={
+            'status': 'To Check Out',
+            'room': self.room,
+            'check_in_id': self.check_in_id
+        })
 
-        # for laundry_order in room_laundry_order_list:
-        #     laundry_order_doc = frappe.get_doc('Hotel Laundry Order', laundry_order.name)
-        #     laundry_order_doc.db_set('status','Completed')
+        for laundry_order in room_laundry_order_list:
+            laundry_order_doc = frappe.get_doc('Hotel Laundry Order', laundry_order.name)
+            laundry_order_doc.db_set('status','Completed')
 
         # Setting Check In doc to Complete
         for room in check_in_doc.rooms:
@@ -201,74 +211,12 @@ class HotelCheckOut(Document):
 
         return [stay_days, check_in_dict, food_order_list, laundry_order_list, payment_entry_list, total_food_discount, total_service_charges]
 
-
-# def create_sales_invoice(self, all_checked_out):
-#     # Sales Invoice for Hotel Walk In Customer
-#     if self.guest_id == 'Hotel Walk In Customer':
-#         # Creating Sales Invoice
-#         sales_invoice_doc = frappe.new_doc('Sales Invoice')
-#         company = frappe.get_doc('Company', self.company)
-#         sales_invoice_doc.discount_amount = 0
-
-#         sales_invoice_doc.customer = self.guest_id
-#         sales_invoice_doc.check_in_id = self.check_in_id
-#         sales_invoice_doc.check_in_date = frappe.get_value('Hotel Check In', self.check_in_id, 'check_in')
-#         sales_invoice_doc.due_date = frappe.utils.data.today()
-#         sales_invoice_doc.debit_to = company.default_receivable_account
-
-#         # Looping through the check out items
-#         for item in self.items:
-#             item_doc = frappe.get_doc('Item', item.item)
-
-#             # Getting Item default Income Account
-#             default_income_account = None
-#             for item_default in item_doc.item_defaults:
-#                 if item_default.company == self.company:
-#                     if item_default.income_account:
-#                         default_income_account = item_default.income_account
-#                     else:
-#                         default_income_account = company.default_income_account
-
-#             # Adding Items to Sales Invoice
-#             sales_invoice_doc.append('items',{
-#                 'item_code': item_doc.item_code,
-#                 'item_name': item_doc.item_name,
-#                 'description': item_doc.description,
-#                 'qty': item.qty,
-#                 'uom': item_doc.stock_uom,
-#                 'rate': item.rate,
-#                 'amount': item.amount,
-#                 'income_account': default_income_account
-#             })
-#         if self.discount != 0:
-#             sales_invoice_doc.discount_amount += self.discount
-#         if self.food_discount != 0:
-#             sales_invoice_doc.discount_amount += self.food_discount
-#         if self.service_charges != 0:
-#             item_doc = frappe.get_doc('Item', 'SERVICE CHARGES')
-
-#             # Getting Item default Income Account
-#             default_income_account = None
-#             for item_default in item_doc.item_defaults:
-#                 if item_default.company == self.company:
-#                     if item_default.income_account:
-#                         default_income_account = item_default.income_account
-#                     else:
-#                         default_income_account = company.default_income_account
-
-#             # Adding Items to Sales Invoice
-#             sales_invoice_doc.append('items',{
-#                 'item_code': item_doc.item_code,
-#                 'item_name': item_doc.item_name,
-#                 'description': item_doc.description,
-#                 'qty': 1,
-#                 'uom': item_doc.stock_uom,
-#                 'rate': self.service_charges,
-#                 'amount': self.service_charges,
-#                 'income_account': default_income_account
-#             })
-#         sales_invoice_doc.insert(ignore_permissions=True)
-#         sales_invoice_doc.submit()
+@frappe.whitelist()
+def get_customer_unpaid_balance(customer):
+    return get_balance_on(
+        party_type="Customer",
+        party=customer,
+    )
 
 def create_sales_invoice(self, all_checked_out):
     # Sales Invoice for Hotel Walk-In Customer
