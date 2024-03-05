@@ -109,7 +109,6 @@ class HotelCheckIn(Document):
                     "qty": float(self.duration),  # Convert to float before assignment
                     "rate": room.price,  # Convert to float before assignment
                     "amount": float(room.price) * float(self.duration),  # Convert to float before multiplication
-                    'income_account': default_income_account
                 },
             )
         sales_invoice_doc.insert(ignore_permissions=True)
