@@ -92,6 +92,14 @@ class HotelCheckIn(Document):
 
         total_amount = 0
         for room in self.rooms:
+            item_doc = frappe.get_doc('Item', f'Room {room_no}')
+            default_income_account = None
+            for item_default in item_doc.item_defaults:
+                if item_default.company == self.company:
+                    if item_default.income_account:
+                        default_income_account = item_default.income_account
+                    else:
+                        default_income_account = company.default_income_account
             room_price = room.price
             total_amount += float(room_price)  # Convert to float before addition
             sales_invoice_doc.append(
@@ -101,6 +109,7 @@ class HotelCheckIn(Document):
                     "qty": float(self.duration),  # Convert to float before assignment
                     "rate": room.price,  # Convert to float before assignment
                     "amount": float(room.price) * float(self.duration),  # Convert to float before multiplication
+                    'income_account': default_income_account
                 },
             )
         sales_invoice_doc.insert(ignore_permissions=True)
@@ -191,6 +200,14 @@ def extend_stay(doc, check_out):
     sales_invoice_doc.debit_to = company.default_receivable_account
     total_amount = 0
     for room in check_in_doc.rooms:
+        item_doc = frappe.get_doc('Item', f'Room {room_no}')
+        default_income_account = None
+        for item_default in item_doc.item_defaults:
+            if item_default.company == self.company:
+                if item_default.income_account:
+                    default_income_account = item_default.income_account
+                else:
+                    default_income_account = company.default_income_account
         room_price = room.price
         total_amount += float(room_price)  # Convert to float before addition
         sales_invoice_doc.append(
@@ -200,6 +217,7 @@ def extend_stay(doc, check_out):
                     "qty": float(new_diff),  # Convert to float before assignment
                     "rate": room.price,  # Convert to float before assignment
                     "amount": float(room.price) * float(new_diff),  # Convert to float before multiplication
+                    'income_account': default_income_account
                 },
             )
     sales_invoice_doc.insert(ignore_permissions=True)
