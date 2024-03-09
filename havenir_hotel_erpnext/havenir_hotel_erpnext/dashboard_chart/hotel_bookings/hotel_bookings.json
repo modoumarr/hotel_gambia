@@ -1,5 +1,5 @@
 {
- "based_on": "posting_date",
+ "based_on": "check_in",
  "chart_name": "Hotel Bookings",
  "chart_type": "Count",
  "creation": "2023-09-30 03:21:53.766674",
@@ -12,8 +12,8 @@
  "idx": 0,
  "is_public": 1,
  "is_standard": 1,
- "last_synced_on": "2024-02-28 22:50:54.413468",
- "modified": "2024-02-28 22:52:37.675670",
+ "last_synced_on": "2024-03-01 23:24:19.392193",
+ "modified": "2024-03-01 23:26:06.414422",
  "modified_by": "Administrator",
  "module": "Havenir Hotel Erpnext",
  "name": "Hotel Bookings",
